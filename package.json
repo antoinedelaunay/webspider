@@ -1,0 +1,25 @@
+{
+  "name": "webspider",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antoinedelaunay/webspider.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/antoinedelaunay/webspider/issues"
+  },
+  "dependencies": {
+    "async": "~0.2.9",
+    "lodash": "~2.2.1",
+    "request": "~2.27.0",
+    "winston": "~0.7.2",
+    "express": "~3.4.4"
+  }
+}
