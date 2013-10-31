@@ -4,7 +4,33 @@
 * Web Scraper
 */
 // Instead of the default console.log, you could use your own augmented console.log !
-// var console = require('./console');
+//var console = require('./console');
+
+var colors = require('./node_modules/colors/');
+var oldConsoleLog = console.log;
+console.log = function() {
+
+        var args = Array.prototype.slice(arguments);
+        var retour;
+
+        if(arguments[0] = "Loading..." )
+        	{retour = arguments[0].redBG;}
+        if(arguments[0] = "We got a new page!" )
+        	{retour = arguments[0].green;}
+        if(arguments[0] = "Oops an error occured on" )
+        	{retour = arguments[0].magentaBG;}
+        if(arguments[0] = "We got a link!" )
+        	{retour = arguments[0].yellowBG;}
+
+        if (arguments[1] != undefined) {
+                oldConsoleLog(retour, arguments[1]);
+        }
+        else {
+                oldConsoleLog(retour);
+        }
+
+};
+
  
 // Url regexp from http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 var EXTRACT_URL_REG = /\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi;
@@ -60,7 +86,7 @@ url:page_url,
 * -> was compression active ? (Content-Encoding: gzip ?)
 * -> the Content-Type
 */
- 
+
 if(error){
 em.emit('page:error', page_url, error);
 return;
@@ -70,6 +96,17 @@ em.emit('page', page_url, html_str);
 });
 }
  
+/**
+fonction pour afficher la taille de la page
+
+function taille(page_url,html_str){
+var windowheight = page_url.height; 
+
+console.log("taille de la fenetre  : " +windowheight);
+
+}*/
+
+
 /**
 * Extract links from the web pagr
 * @param {String} html_str String that represents the HTML page
@@ -102,8 +139,13 @@ queue.push(url);
  
 em.on('page:scraping', function(page_url){
 console.log('Loading... ', page_url);
+
+var windowheight = page_url.height; 
+
+console.log("taille de la fenetre  : " +windowheight);
 });
  
+
 // Listen to events, see: http://nodejs.org/api/all.html#all_emitter_on_event_listener
 em.on('page', function(page_url, html_str){
 console.log('We got a new page!', page_url);
@@ -114,7 +156,7 @@ console.error('Oops an error occured on', page_url, ' : ', error);
 });
  
 em.on('page', extract_links);
- 
+
 em.on('url', function(page_url, html_str, url){
 console.log('We got a link! ', url);
 });
@@ -178,9 +220,11 @@ urls:queue
 }
 });
 });
+
+
  
 app.listen(PORT);
 console.log('Web UI Listening on port '+PORT);
- 
+
 // #debug Start the crawler with a link
 get_page('http://twitter.com/FGRibreau');
