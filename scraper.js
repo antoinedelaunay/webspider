@@ -69,8 +69,17 @@ var queue = [];
 * `get_page` will emit
 */
 function get_page(page_url){
-em.emit('page:scraping', page_url);
- 
+
+//-------------------------- page_l undifined
+//em.emit('largeur', page_url);
+
+//-------------------------- page_h undifined
+//em.emit('hauteur', page_url);
+
+
+
+
+em.emit('page:scraping', page_url); 
 // See: https://github.com/mikeal/request
 request({
 url:page_url,
@@ -110,30 +119,26 @@ em.emit('page', page_url, html_str);
 * @param {String} html_page String that represents the HTML page
 * 
 */
-/*
 function page_height(html_page){
         var page_h = html_page.height;
         em.emit('hauteur' ,page_h);
 }
-*/
 
 /**
 * get the width of the web page
 * @param {String} html_page String that represents the HTML page
 * 
 */
-/*
 function page_width(html_page){
         var page_l = html_page.width;
         em.emit('largeur' ,page_l);
 }
-*/
 /**
 * get the server language of the web page
 * @param {String} html_page String that represents the HTML page
 * 
 */
-/*
+
 function language_server(html_page){
 
 }
@@ -145,7 +150,7 @@ function active_compression(){
 function content_type(){
 
 }
-*/
+
 
 /**
 * Extract links from the web pagr
@@ -197,7 +202,10 @@ console.log('We got a link! ', url);
 });
  
 em.on('url', handle_new_url);
-/* 
+
+
+});
+
 em.on('hauteur', function(html_str){
         console.log('hauteur de la page : ' , page_h);
 });
@@ -205,8 +213,7 @@ em.on('hauteur', function(html_str){
 em.on('largeur', function(html_str){
         console.log('largeur de la page : ' , page_l);
 });
-*/
-});
+
 /*
 -------------------------------------------------------------------------------------------------truc a faire ici aussi
 */ 
