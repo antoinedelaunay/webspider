@@ -42,6 +42,10 @@ var request = require('request');
 var express = require('express');
 var app = express();
  
+/*
+-----------------------------------------------------------------------------------------------------------------------implementation a faire a partir ici
+*/
+
 // You should (okay: could) use your OWN implementation here!
 var EventEmitter = require('events').EventEmitter;
  
@@ -78,6 +82,11 @@ url:page_url,
 * The third is the response body String or Buffer.
 */
  
+
+/*
+-------------------------------------------------------------------------------------------------truc a faire ici aussi
+*/ 
+
 /**
 * You may improve what get_page is returning by:
 * - emitting HTTP headers information like:
@@ -97,15 +106,44 @@ em.emit('page', page_url, html_str);
 }
  
 /**
-fonction pour afficher la taille de la page
+* get the height of the web page
+* @param {String} html_page String that represents the HTML page
+* 
+*/
+function page_height(html_page){
+        var page_h = html_page.height;
+        em.emit('hauteur' ,page_h);
 
-function taille(page_url,html_str){
-var windowheight = page_url.height; 
+};
 
-console.log("taille de la fenetre  : " +windowheight);
 
-}*/
+/**
+* get the width of the web page
+* @param {String} html_page String that represents the HTML page
+* 
+*/
+function page_width(html_page){
+        var page_l = html_page.width;
+        em.emit('largeur' ,page_l);
 
+};
+
+/**
+* get the server language of the web page
+* @param {String} html_page String that represents the HTML page
+* 
+*/
+function language_server(html_page){
+
+};
+
+function active_compression(){
+
+};
+
+function content_type(){
+
+};
 
 /**
 * Extract links from the web pagr
@@ -135,16 +173,9 @@ queue.push(url);
 // in order to then provide a Web UI to request the data (or monitoring the scraper maybe ?)
 // You'll want to use `express` to do so
 }
- 
- 
+  
 em.on('page:scraping', function(page_url){
 console.log('Loading... ', page_url);
-
-var windowheight = page_url.height; 
-
-console.log("taille de la fenetre  : " +windowheight);
-});
- 
 
 // Listen to events, see: http://nodejs.org/api/all.html#all_emitter_on_event_listener
 em.on('page', function(page_url, html_str){
@@ -163,7 +194,9 @@ console.log('We got a link! ', url);
  
 em.on('url', handle_new_url);
  
- 
+/*
+-------------------------------------------------------------------------------------------------truc a faire ici aussi
+*/ 
 // A simple (non-REST) API
 // You may (should) want to improve it in order to provide a real-GUI for:
 // - adding/removing urls to scrape
