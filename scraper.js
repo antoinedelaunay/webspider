@@ -110,40 +110,42 @@ em.emit('page', page_url, html_str);
 * @param {String} html_page String that represents the HTML page
 * 
 */
+/*
 function page_height(html_page){
         var page_h = html_page.height;
         em.emit('hauteur' ,page_h);
-
-};
-
+}
+*/
 
 /**
 * get the width of the web page
 * @param {String} html_page String that represents the HTML page
 * 
 */
+/*
 function page_width(html_page){
         var page_l = html_page.width;
         em.emit('largeur' ,page_l);
-
-};
-
+}
+*/
 /**
 * get the server language of the web page
 * @param {String} html_page String that represents the HTML page
 * 
 */
+/*
 function language_server(html_page){
 
-};
+}
 
 function active_compression(){
 
-};
+}
 
 function content_type(){
 
-};
+}
+*/
 
 /**
 * Extract links from the web pagr
@@ -151,6 +153,7 @@ function content_type(){
 *
 * `extract_links` should emit an `link(` event each
 */
+
 function extract_links(page_url, html_str){
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match
 // "match" can return "null" instead of an array of url
@@ -194,14 +197,16 @@ console.log('We got a link! ', url);
 });
  
 em.on('url', handle_new_url);
- 
+/* 
 em.on('hauteur', function(html_str){
         console.log('hauteur de la page : ' , page_h);
-}) ;
+});
 
 em.on('largeur', function(html_str){
         console.log('largeur de la page : ' , page_l);
-}) ;
+});
+*/
+});
 /*
 -------------------------------------------------------------------------------------------------truc a faire ici aussi
 */ 
