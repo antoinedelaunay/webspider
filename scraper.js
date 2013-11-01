@@ -174,6 +174,7 @@ queue.push(url);
 // You'll want to use `express` to do so
 }
   
+
 em.on('page:scraping', function(page_url){
 console.log('Loading... ', page_url);
 
@@ -194,6 +195,13 @@ console.log('We got a link! ', url);
  
 em.on('url', handle_new_url);
  
+em.on('hauteur', function(html_str){
+        console.log('hauteur de la page : ' , page_h);
+}) ;
+
+em.on('largeur', function(html_str){
+        console.log('largeur de la page : ' , page_l);
+}) ;
 /*
 -------------------------------------------------------------------------------------------------truc a faire ici aussi
 */ 
