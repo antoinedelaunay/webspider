@@ -6,6 +6,8 @@
 // Instead of the default console.log, you could use your own augmented console.log !
 //var console = require('./console');
 
+
+
 var colors = require('./node_modules/colors/');
 var oldConsoleLog = console.log;
 console.log = function() {
@@ -34,14 +36,18 @@ console.log = function() {
  
 // Url regexp from http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 var EXTRACT_URL_REG = /\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi;
-var PORT = 3000;
+var PORT = 32789;
  
 var request = require('request');
  
 // See: http://expressjs.com/guide.html
 var express = require('express');
+var api = require('./monApi/api.js');
+
 var app = express();
- 
+api.appSend(app);
+
+api.PORTSend(PORT);
 /*
 -----------------------------------------------------------------------------------------------------------------------implementation a faire a partir ici
 */
@@ -229,55 +235,59 @@ em.on('largeur', function(html_str){
 // - ...
  
 // You should extract all the following "api" related code into its own NodeJS module and require it with
-// var api = require('./api');
-// api.listen(PORT);
- 
+
+
+
+//api.listen(PORT);
+/*
 app.get('/', function(req, res){
 // See: http://expressjs.com/api.html#res.json
-res.json(200, {
-title:'YOHMC - Your Own Home Made Crawler',
-endpoints:[{
-url:'http://127.0.0.1:'+PORT+'/queue/size',
-details:'the current crawler queue size'
-}, {
-url:'http://127.0.0.1:'+PORT+'/queue/add?url=http%3A//voila.fr',
-details:'immediately start a `get_page` on voila.fr.'
-}, {
-url:'http://127.0.0.1:'+PORT+'/queue/list',
-details:'the current crawler queue list.'
-}]
-});
+        res.json(200, {
+                title:'YOHMC - Your Own Home Made Crawler',
+                        endpoints:[{
+                                url:'http://127.0.0.1:'+PORT+'/queue/size',
+                                url:'http://127.0.0.1:'+PORT+'/queue/add?url=http%3A//voila.fr',
+                                details:'immediately start a `get_page` on voila.fr.'
+                        }, {
+                                url:'http://127.0.0.1:'+PORT+'/queue/list',
+                                details:'the current crawler queue list.'
+                        }]
+                });
 });
  
 app.get('/queue/size', function(req, res){
-res.setHeader('Content-Type', 'text/plain');
-res.json(200, {queue:{length:queue.length}});
+        res.setHeader('Content-Type', 'text/plain');
+        res.json(200, {queue:{length:queue.length}});
 });
- 
+
 app.get('/queue/add', function(req, res){
-var url = req.param('url');
-get_page(url);
-res.json(200, {
-queue:{
-added:url,
-length:queue.length,
-}
-});
+        var url = req.param('url');
+        get_page(url);
+        res.json(200, {
+                queue:{
+                        added:url,
+                        length:queue.length,
+                }
+        });
 });
  
 app.get('/queue/list', function(req, res){
-res.json(200, {
-queue:{
-length:queue.length,
-urls:queue
-}
-});
+        res.json(200, {
+                queue:{
+                        length:queue.length,
+                        urls:queue
+                }
+        });
 });
 
 
  
 app.listen(PORT);
 console.log('Web UI Listening on port '+PORT);
+*/
+
 
 // #debug Start the crawler with a link
+
+
 get_page('http://twitter.com/FGRibreau');
