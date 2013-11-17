@@ -42,7 +42,7 @@ console.log = function() {
                 oldConsoleLog(retour, arguments[1]);
         }
         else {
-                oldConsoleLog(retour);
+                oldConsoleLog(retour.cyanBG);
         }
 
 };
@@ -82,8 +82,10 @@ var em = new EventEmitter();
 */
 var queue = [];
 
+var fs = require('fs');
 
 
+/*
 //test ajout bdd
 var mongoose = require('mongoose');
 var html_str;
@@ -113,7 +115,7 @@ var EJS = require('ejs');
 //html = new EJS({url: '/template.ejs'}).render(data)
 //new EJS({url:'/todo.ejs'}).update('todo','/todo.json')
 
- 
+*/ 
 /**
 * Get the page from `page_url`
 * @param {String} page_url String page url to get
@@ -228,7 +230,8 @@ em.emit('url', page_url, html_str, url);
 function handle_new_url(from_page_url, from_page_str, url){
 // Add the url to the queue
 queue.push(url);
- 
+ fs.appendFile('data.txt', url + '\r\n');
+
 // ... and may be do other things like saving it to a database
 // in order to then provide a Web UI to request the data (or monitoring the scraper maybe ?)
 // You'll want to use `express` to do so
@@ -250,7 +253,8 @@ console.error('Oops an error occured on', page_url, ' : ', error);
 em.on('page', extract_links);
 
 em.on('url', function(page_url, html_str, url){
-console.log('We got a link! ', url);
+    console.log('We got a link! ', url);
+  
 });
  
 em.on('url', handle_new_url);
@@ -265,6 +269,7 @@ em.on('hauteur', function(html_str){
 em.on('largeur', function(html_str){
         console.log('largeur de la page : ' , page_l);
 });
+
 
 /*
 -------------------------------------------------------------------------------------------------truc a faire ici aussi
