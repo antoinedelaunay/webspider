@@ -8,6 +8,20 @@
 
 
 
+/**
+ * Get arguments
+ * Argument 0 is node
+ * Argument 1 is file path
+ * Argument 2 is the URL
+ * Argument 3 is the keyword searched
+ */
+
+
+var a = process.argv;
+var args = process.argv;
+var site = args[2];
+var keyword = args[3];
+
 var colors = require('./node_modules/colors/');
 var oldConsoleLog = console.log;
 console.log = function() {
@@ -36,7 +50,7 @@ console.log = function() {
  
 // Url regexp from http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 var EXTRACT_URL_REG = /\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi;
-var PORT = 32789;
+var PORT = 3000;
  
 var request = require('request');
  
@@ -67,6 +81,38 @@ var em = new EventEmitter();
 * var queue = require('./queue');
 */
 var queue = [];
+
+
+
+//test ajout bdd
+var mongoose = require('mongoose');
+var html_str;
+
+mongoose.connect('mongodb://localhost/blog', function(err) {
+  if (err) { throw err; }
+});
+
+var DataSchema = new mongoose.Schema({
+  Lien : String,
+  date : { type : Date, default : Date.now }
+});
+
+var DataModel = mongoose.model('commentaires',  DataSchema);
+var data = new DataModel ({lien : html_str });
+
+data.save(function (err) {
+  if (err) { throw err; }
+  console.log('data ajouté avec succès !');
+});
+
+
+//parse en json
+
+var EJS = require('ejs');
+
+//html = new EJS({url: '/template.ejs'}).render(data)
+//new EJS({url:'/todo.ejs'}).update('todo','/todo.json')
+
  
 /**
 * Get the page from `page_url`
@@ -289,5 +335,4 @@ console.log('Web UI Listening on port '+PORT);
 
 // #debug Start the crawler with a link
 
-
-get_page('http://twitter.com/FGRibreau');
+get_page(site);
