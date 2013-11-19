@@ -62,6 +62,15 @@ if(app!==undefined){
     app.listen(PORT);
 }
 
+if(app!==undefined){
+ app.get('/stats/linkscount', function(req, res){
+    var fs = require('fs');
+    var data=(String)(fs.readFileSync('./data.txt')).split('\n');
+    res.setHeader('Content-Type', 'text/plain');
+    res.json(200, {length: data.length});
+  });
+}
+
 console.log('Web UI Listening on port '+PORT);
 
 

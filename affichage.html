@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Webspider</title>
+    <script>
+      function search()
+      {
+        var req = new XMLHttpRequest();
+        var link=encodeURI(document.getElementById('search_field').value);
+        req.open('GET','http://127.0.0.1:3000/queue/add?url='+link, false);
+        req.send(null);
+        if(req.status != 200)
+          alert("An error occured");
+        //else alert(req.res);
+        
+        document.getElementById('waiting_msg').innerHTML='Loading...';
+        setTimeout('refresh()',2000);
+      }
+    //dois récuperer les élément provenant de la case de recherche
+      function refresh()
+      {
+        document.getElementById('waiting_msg').innerHTML='';
+        document.getElementById('content_div').innerHTML='';
+        var req = new XMLHttpRequest();
+        req.open('GET','http://127.0.0.1:3000/queue/list', false);
+        req.setRequestHeader( 'Content-Type', 'application/json' );
+        req.send(null);
+        if(req.status == 200)
+          var response=req.responseText;
+        else alert("An error occured");
+
+        var list=document.createElement('ul');
+        list.setAttribute('id','list');
+        document.getElementById('content_div').appendChild(list);
+
+        var array=JSON.parse(response).queue.urls;
+        var li;
+        var a;
+        array.forEach(function(i){
+          li=document.createElement('li');
+          a=document.createElement('a');
+          
+          a.innerHTML=i;
+          a.setAttribute("href",i);
+          li.appendChild(a);
+          document.getElementById('list').appendChild(li);
+        });
+
+        setLinksCount();
+      }
+      
+      function setLinksCount()
+      {
+        var req = new XMLHttpRequest();
+        req.open('GET','http://127.0.0.1:3000/queue/size', false);
+        req.setRequestHeader( 'Content-Type', 'application/json' );
+        req.send(null);
+        if(req.status != 200)
+          alert("An error occured");
+        else response=req.responseText;
+        
+        document.getElementById('linksCount').innerHTML="Nombre de liens trouvés: "+JSON.parse(response).queue.length;
+        setTotalLinksCount()
+      }
+
+      function setTotalLinksCount()
+      {
+        var req = new XMLHttpRequest();
+        req.open('GET','http://127.0.0.1:3000/stats/linkscount', false);
+        req.setRequestHeader( 'Content-Type', 'application/json' );
+        req.send(null);
+        if(req.status != 200)
+          alert("An error occured");
+        else response=req.responseText;
+        
+        document.getElementById('totalLinksCount').innerHTML="Nombre total de liens trouvés : "+JSON.parse(response).length;
+      }
+    </script>
+  </head>
+  <body onload='setTotalLinksCount()'>
+    <header>
+      <input id='search_field' placeholder='http://exemple_lien.dom' />
+      <input type='button' value='Rechercher' onclick='search()' />
+      <span id='waiting_msg'></span>
+    </header>
+    <div id='menu_div'>
+      <h3>DATA</h3>
+      <p id='linksCount'></p>
+      <p id='totalLinksCount'></p>
+    </div>
+    <div id='content_div'></div>
+    
+    
+  </body>
+</html>

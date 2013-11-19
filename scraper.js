@@ -130,14 +130,11 @@ function get_page(page_url){
 //-------------------------- page_h undifined
 //em.emit('hauteur', page_url);
 
-
-
-
-em.emit('page:scraping', page_url); 
+    em.emit('page:scraping', page_url); 
 // See: https://github.com/mikeal/request
-request({
-url:page_url,
-}, function(error, http_client_response, html_str){
+        request({
+            url:page_url,
+        }, function(error, http_client_response, html_str){
 /**
 * The callback argument gets 3 arguments.
 * The first is an error when applicable (usually from the http.Client option not the http.ClientRequest object).
@@ -159,30 +156,32 @@ url:page_url,
 * -> the Content-Type
 */
 
-if(error){
-em.emit('page:error', page_url, error);
-return;
-}
+        if(error){
+            em.emit('page:error', page_url, error);
+        return;
+        }
  
-em.emit('page', page_url, html_str);
-});
+    em.emit('page', page_url, html_str);
+    });
 }
  
 /**
 * get the height of the web page
 * @param {String} html_page String that represents the HTML page
 * 
-*/
+/**
+
 function page_height(html_page){
         var page_h = html_page.height;
         em.emit('hauteur' ,page_h);
 }
-
+*/
 /**
 * get the width of the web page
 * @param {String} html_page String that represents the HTML page
 * 
 */
+/**
 function page_width(html_page){
         var page_l = html_page.width;
         em.emit('largeur' ,page_l);
@@ -192,7 +191,7 @@ function page_width(html_page){
 * @param {String} html_page String that represents the HTML page
 * 
 */
-
+/**
 function language_server(html_page){
 
 }
@@ -230,8 +229,7 @@ em.emit('url', page_url, html_str, url);
 function handle_new_url(from_page_url, from_page_str, url){
 // Add the url to the queue
 queue.push(url);
- fs.appendFile('data.txt', url + '\r\n');
-
+ 
 // ... and may be do other things like saving it to a database
 // in order to then provide a Web UI to request the data (or monitoring the scraper maybe ?)
 // You'll want to use `express` to do so
@@ -244,6 +242,7 @@ console.log('Loading... ', page_url);
 // Listen to events, see: http://nodejs.org/api/all.html#all_emitter_on_event_listener
 em.on('page', function(page_url, html_str){
 console.log('We got a new page!', page_url);
+fs.appendFileSync('data.txt',page_url+"\n","UTF-8",{'flags':'a+'});
 });
  
 em.on('page:error', function(page_url, error){
@@ -254,6 +253,7 @@ em.on('page', extract_links);
 
 em.on('url', function(page_url, html_str, url){
     console.log('We got a link! ', url);
+    fs.appendFile('data.txt',url+"\n","UTF-8",{'flags':'a+'});
   
 });
  
@@ -261,7 +261,7 @@ em.on('url', handle_new_url);
 
 
 });
-
+/*
 em.on('hauteur', function(html_str){
         console.log('hauteur de la page : ' , page_h);
 });
@@ -269,7 +269,7 @@ em.on('hauteur', function(html_str){
 em.on('largeur', function(html_str){
         console.log('largeur de la page : ' , page_l);
 });
-
+*/
 
 /*
 -------------------------------------------------------------------------------------------------truc a faire ici aussi
@@ -341,3 +341,6 @@ console.log('Web UI Listening on port '+PORT);
 // #debug Start the crawler with a link
 
 get_page(site);
+
+//je n'arrive pas a relancer le contenu de mon search ici
+//get_page(this);
